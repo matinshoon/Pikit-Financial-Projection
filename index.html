@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Financial Projection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-100 p-6">
+  <div class="flex items-center justify-center mb-6">
+    <h1 class="text-2xl font-bold text-center">Financial Projection</h1>
+    <button id="open-settings" type="button" class="ml-4 text-blue-600 hover:text-blue-800 focus:outline-none" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path stroke="currentColor" stroke-width="2" d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09A1.65 1.65 0 0 0 9 3.09V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+    </button>
+  </div>
+
+  <!-- Modal -->
+  <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
+        <button id="close-settings" type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+        <form id="settings-form">
+            <fieldset class="border border-gray-300 rounded p-4">
+                <legend class="px-2 text-lg font-semibold text-blue-700">Financial Settings</legend>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 1 Price ($):</label>
+                        <input type="number" id="plan1" value="139" min="0" step="1" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 1 Portion (0-1):</label>
+                        <input type="number" id="portion1" value="0.5" min="0" max="1" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 2 Price ($):</label>
+                        <input type="number" id="plan2" value="239" min="0" step="1" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 2 Portion (0-1):</label>
+                        <input type="number" id="portion2" value="0.3" min="0" max="1" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 3 Price ($):</label>
+                        <input type="number" id="plan3" value="359" min="0" step="1" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium text-gray-700">Plan 3 Portion (0-1):</label>
+                        <input type="number" id="portion3" value="0.2" min="0" max="1" step="0.01" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label class="block mb-1 font-medium text-gray-700">CAC Increase Rate (e.g. 0.005 for 0.5%):</label>
+                    <input type="number" id="cacIncreaseRate" value="0.005" min="0" step="0.0001" required class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+                <button type="submit" class="mt-6 bg-blue-600 text-white font-semibold px-6 py-2 rounded shadow hover:bg-blue-700 transition">Apply Settings</button>
+            </fieldset>
+        </form>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table id="financial-table" class="min-w-full">
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+  <div class="flex justify-between mt-4">
+    <button id="toggle-button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      Next Year
+    </button>
+    <button id="export-button" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+      Export to CSV
+    </button>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
