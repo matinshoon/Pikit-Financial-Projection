@@ -286,8 +286,8 @@ function updateTableHeader() {
         "Payment Processing Revenue ($)",
         "SaaS Plans Revenue ($)",
         "CAC ($)",
-        "Business Expenses ($)",
         "Marketing Budget ($)",
+        "Business Expenses ($)",
         "Total Revenue ($)",
         "Gross Profit/month ($)",
         "Tax Amount ($)",
@@ -297,7 +297,16 @@ function updateTableHeader() {
     headers.forEach((title) => {
         const th = document.createElement("th");
         th.textContent = title;
-        th.classList.add("text-center", "py-[1vh]", "border", "border-gray-300", "bg-gray-50");
+        th.classList.add(
+            "text-center",
+            "py-[1vh]",
+            "border",
+            "border-gray-300",
+            "bg-gray-50",
+            "sticky",
+            "top-0",
+            "z-30" // <-- increase z-index for better stacking
+        );
         headerRow.appendChild(th);
     });
 
@@ -316,8 +325,9 @@ function generateFirst12Months() {
     currentMonth = 1;
 
     for (let i = 1; i <= 12; i++) {
-        const row = simulateMonth(i);
+        const row = simulateMonth(currentMonth); // Use currentMonth for correct month number
         monthData.push(row);
+        currentMonth++; // Increment for next month
     }
     updateTable(monthData);
 }
@@ -326,11 +336,11 @@ function generateFirst12Months() {
 function generateNext12Months() {
     let newMonthData = [];
     for (let i = 0; i < 12; i++) {
-        newMonthData.push(simulateMonth(currentMonth)); // Use currentMonth for the correct month number
-        currentMonth++;  // Increment the month number after each iteration
+        newMonthData.push(simulateMonth(currentMonth));
+        currentMonth++;
     }
-    monthData = [...monthData, ...newMonthData];  // Append the new months to existing data
-    updateTable(monthData);  // Update the table with new data
+    monthData = [...monthData, ...newMonthData];
+    updateTable(monthData);
 }
 
 // Function to export table data to CSV
